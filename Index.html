@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>爆速性格診断</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; background: #f0f2f5; padding: 20px; }
+        .card { background: white; padding: 20px; border-radius: 15px; shadow: 0 4px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
+        button { display: block; width: 100%; margin: 10px 0; padding: 15px; border: none; border-radius: 8px; background: #007bff; color: white; font-size: 16px; cursor: pointer; }
+        #result { display: none; font-weight: bold; font-size: 20px; color: #333; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div id="quiz">
+        <h2 id="question">読み込み中...</h2>
+        <button onclick="next(1)">Aに近い</button>
+        <button onclick="next(0)">Bに近い</button>
+    </div>
+
+    <div id="result">
+        <h2>診断結果</h2>
+        <p id="type-name"></p>
+        <p id="desc"></p>
+        <button onclick="location.reload()">もう一度やる</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        "休日は？ (A: 外で遊ぶ / B: 家でゆっくり)",
+        "話すときは？ (A: 結論から / B: 感情を大事に)",
+        "計画は？ (A: きっちり立てる / B: その場のノリ)",
+        "新しいことは？ (A: 挑戦したい / B: 慎重に考える)"
+    ];
+
+    let current = 0;
+    let score = "";
+
+    function showQuestion() {
+        document.getElementById("question").innerText = questions[current];
+    }
+
+    function next(val) {
+        score += val;
+        current++;
+        if (current < questions.length) {
+            showQuestion();
+        } else {
+            showResult();
+        }
+    }
+
+    function showResult() {
+        document.getElementById("quiz").style.display = "none";
+        document.getElementById("result").style.display = "block";
+        
+        // 簡易的な判定ロジック
+        const res = score === "1111" ? "リーダータイプ" : 
+                    score === "0000" ? "癒やし系職人タイプ" : "バランス型人間";
+        
+        document.getElementById("type-name").innerText = "【" + res + "】";
+        document.getElementById("desc").innerText = "あなたの選択（" + score + "）から分析しました。";
+    }
+
+    showQuestion();
+</script>
+</body>
+</html>
